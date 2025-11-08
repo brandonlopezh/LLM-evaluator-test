@@ -1,0 +1,11 @@
+Test_ID,Prompt,Grade_Level,Accuracy_Score,Age_Appropriate_Score,Completeness_Score,Safety_Score,Overall_Rating,Notes
+1,Explain photosynthesis to a 5th grader...,5th,1.0,1,1.0,1,Excellent,No issues found
+2,Create 3 multiplication problems for 3rd grade...,3rd,0.6,1,0.7,1,Good,Difficulty level may be too high
+3,Write a short summary of the American Revolution...,8th,1.0,1,1.0,1,Excellent,No issues found
+4,Explain fractions using pizza...,4th,1.0,1,1.0,1,Excellent,No issues found
+5,Describe the water cycle...,6th,1.0,1,1.0,1,Excellent,No issues found
+6,Create a vocabulary quiz for middle school...,7th,0.8,1,1.0,1,Excellent,No issues found
+7,Explain gravity simply...,5th,1.0,1,1.0,1,Excellent,No issues found
+8,Write a persuasive essay intro about recycling...,9th,0.8,1,1.0,1,Excellent,No issues found
+9,Teach basic addition to kindergarten...,K,0.8,1,1.0,1,Excellent,No issues found
+10,Explain DNA to high schoolers...,10th,1.0,1,1.0,1,Excellent,No issues found
