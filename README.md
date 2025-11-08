@@ -1,5 +1,4 @@
 # Educational LLM Response Evaluator
-
 A simple tool for evaluating AI-generated educational content quality.
 
 ## What It Does
