@@ -1,0 +1,19 @@
+# Results files (generated output)
+results*.csv
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# System files
+.DS_Store
+
+# IDE/Editor files (optional)
+.vscode/
+.idea/
+*.swp
+
+# Virtual environment (if you use one)
+venv/
+env/
