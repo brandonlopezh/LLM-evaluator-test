@@ -1,6 +1,7 @@
 import pandas as pd
 import csv
 import os
+import matplotlib.pyplot as plt
 
 # Read test data from CSV file instead of hardcoding it
 test_data = pd.read_csv('test_prompts.csv').to_dict('records')
@@ -29,7 +30,7 @@ def evaluate_response(prompt, response, grade_level):
         "notes": []
     }
     
-   # Check for VERY inappropriate language (only major red flags for Raina's conversational tone)
+   # Check for VERY inappropriate language (only major red flags for conversational tone)
     very_inappropriate_words = ["hate", "stupid", "dumb", "useless", "pointless"]
     if any(word in response.lower() for word in very_inappropriate_words):
         scores["accuracy"] = 0.1
@@ -221,7 +222,7 @@ def evaluate_response(prompt, response, grade_level):
 
 # Run evaluation
 print("=" * 60)
-print("LLM RESPONSE QUALITY EVALUATOR FOR RAINA")
+print("LLM RESPONSE QUALITY EVALUATOR")
 print("=" * 60)
 print(f"\nEvaluating {len(test_data)} LLM responses...\n")
 
@@ -286,9 +287,77 @@ matches = sum(1 for r in results if r["Matches_Expected"])
 print(f"\nEvaluator Quality: {matches}/{len(results)} ({matches/len(results)*100:.1f}%)")
 
 print("\nThis demonstrates:")
-print("  ✓ AI response quality assessment for Raina chatbot")
+print("  ✓ AI response quality assessment for educational chatbots")
 print("  ✓ Educational content evaluation with conversational tone")
 print("  ✓ Multi-criteria evaluation framework")
 print("  ✓ Safety and appropriateness checking")
 print("  ✓ Accuracy validation against prompts")
 print("  ✓ Educational quality scoring")
+
+# Generate Dashboard Visualization
+print("\n" + "=" * 60)
+print("GENERATING EVALUATION DASHBOARD")
+print("=" * 60)
+
+try:
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    fig.suptitle('LLM Response Quality Evaluation Dashboard', fontsize=16, fontweight='bold')
+    
+    # 1. Rating distribution
+    rating_counts = df['Overall_Rating'].value_counts()
+    colors = {'Excellent': 'lightgreen', 'Good': 'skyblue', 'Needs Review': 'orange', 'Poor': 'salmon'}
+    rating_colors = [colors.get(rating, 'gray') for rating in rating_counts.index]
+    axes[0, 0].bar(rating_counts.index, rating_counts.values, color=rating_colors)
+    axes[0, 0].set_title('Response Quality Distribution', fontweight='bold')
+    axes[0, 0].set_ylabel('Count')
+    axes[0, 0].set_xlabel('Rating')
+    for i, v in enumerate(rating_counts.values):
+        axes[0, 0].text(i, v + 0.2, str(v), ha='center', fontweight='bold')
+    
+    # 2. Educational quality scores histogram
+    axes[0, 1].hist(df['Educational_Quality'], bins=10, color='coral', edgecolor='black')
+    axes[0, 1].set_title('Educational Quality Score Distribution', fontweight='bold')
+    axes[0, 1].set_xlabel('Score (0.0 - 1.0)')
+    axes[0, 1].set_ylabel('Frequency')
+    axes[0, 1].axvline(df['Educational_Quality'].mean(), color='red', linestyle='--', linewidth=2, label=f'Mean: {df["Educational_Quality"].mean():.2f}')
+    axes[0, 1].legend()
+    
+    # 3. Expected vs Actual match rate
+    match_counts = df['Matches_Expected'].value_counts()
+    match_labels = ['Match' if x else 'Mismatch' for x in match_counts.index]
+    match_colors = ['lightgreen', 'salmon']
+    axes[1, 0].pie(match_counts, labels=match_labels, autopct='%1.1f%%', colors=match_colors, startangle=90)
+    axes[1, 0].set_title('Evaluator Accuracy\n(Expected vs Actual)', fontweight='bold')
+    
+    # 4. Quality by grade level
+    if len(df['Grade_Level'].unique()) > 1:
+        grade_quality = df.groupby('Grade_Level')['Educational_Quality'].mean().sort_values()
+        axes[1, 1].barh(range(len(grade_quality)), grade_quality.values, color='mediumpurple')
+        axes[1, 1].set_yticks(range(len(grade_quality)))
+        axes[1, 1].set_yticklabels(grade_quality.index)
+        axes[1, 1].set_title('Avg Quality Score by Grade Level', fontweight='bold')
+        axes[1, 1].set_xlabel('Average Educational Quality')
+        for i, v in enumerate(grade_quality.values):
+            axes[1, 1].text(v + 0.02, i, f'{v:.2f}', va='center')
+    else:
+        # If only one grade level, show safety vs quality comparison
+        safety_data = pd.DataFrame({
+            'Metric': ['Passed Safety', 'Failed Safety'],
+            'Count': [len(df) - safety_issues, safety_issues]
+        })
+        axes[1, 1].bar(safety_data['Metric'], safety_data['Count'], color=['lightgreen', 'salmon'])
+        axes[1, 1].set_title('Safety Check Results', fontweight='bold')
+        axes[1, 1].set_ylabel('Count')
+        for i, v in enumerate(safety_data['Count']):
+            axes[1, 1].text(i, v + 0.2, str(v), ha='center', fontweight='bold')
+    
+    plt.tight_layout()
+    dashboard_filename = results_filename.replace('.csv', '_dashboard.png')
+    plt.savefig(dashboard_filename, dpi=150, bbox_inches='tight')
+    print(f"✓ Dashboard saved to: {dashboard_filename}")
+    
+except Exception as e:
+    print(f"⚠ Could not generate dashboard: {e}")
+    print("  Install matplotlib with: pip install matplotlib")
+
+print("=" * 60)
