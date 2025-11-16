@@ -96,7 +96,7 @@ The auto-generated dashboard includes:
 3. **Evaluator Accuracy** - Pie chart comparing expected vs actual ratings
 4. **Quality by Grade Level** - Comparative analysis across different grade levels
 
-![Dashboard Example](results_1_dashboard.png)
+![Dashboard Example](https://github.com/brandonlopezh/LLM-evaluator-test/blob/main/results_2_dashboard.png)
 
 ## Pattern Analysis & Issue Triage
 
