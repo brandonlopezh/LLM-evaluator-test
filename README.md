@@ -1,5 +1,5 @@
 # Educational LLM Response Evaluator
-A comprehensive tool for evaluating AI-generated educational content quality, designed specifically for conversational educational chatbots like Raina.
+A comprehensive tool for evaluating AI-generated educational content quality, designed specifically for conversational educational chatbots.
 
 ## What It Does
 Evaluates LLM responses for educational prompts based on multiple criteria:
